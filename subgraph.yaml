@@ -1,0 +1,44 @@
+specVersion: 0.0.1
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum
+    name: TSSContract
+    network: chapel
+    source:
+      address: "0x7d5b0f115e0C54A771Dd74C566858e79E212a39e"
+      abi: TSSContract
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.5
+      language: wasm/assemblyscript
+      entities:
+        - AddBlacklistEvent
+        - Approval
+        - ApprovalForAll
+        - RemoveBlacklistEvent
+        - RoleAdminChanged
+        - RoleGranted
+        - RoleRevoked
+        - Transfer
+      abis:
+        - name: TSSContract
+          file: ./abis/TSSContract.json
+      eventHandlers:
+        - event: AddBlacklistEvent(address[])
+          handler: handleAddBlacklistEvent
+        - event: Approval(indexed address,indexed address,indexed uint256)
+          handler: handleApproval
+        - event: ApprovalForAll(indexed address,indexed address,bool)
+          handler: handleApprovalForAll
+        - event: RemoveBlacklistEvent(address[])
+          handler: handleRemoveBlacklistEvent
+        - event: RoleAdminChanged(indexed bytes32,indexed bytes32,indexed bytes32)
+          handler: handleRoleAdminChanged
+        - event: RoleGranted(indexed bytes32,indexed address,indexed address)
+          handler: handleRoleGranted
+        - event: RoleRevoked(indexed bytes32,indexed address,indexed address)
+          handler: handleRoleRevoked
+        - event: Transfer(indexed address,indexed address,indexed uint256)
+          handler: handleTransfer
+      file: ./src/tss-contract.ts
