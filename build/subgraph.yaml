@@ -1,0 +1,29 @@
+specVersion: 0.0.4
+schema:
+  file: schema.graphql
+dataSources:
+  - kind: ethereum
+    name: TSSContract
+    network: chapel
+    source:
+      address: "0x7d5b0f115e0C54A771Dd74C566858e79E212a39e"
+      abi: TSSContract
+      startBlock: 20598704
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.5
+      language: wasm/assemblyscript
+      entities:
+        - Token
+        - User
+      abis:
+        - name: TSSContract
+          file: TSSContract\abis\TSSContract.json
+      eventHandlers:
+        - event: Transfer(indexed address,indexed address,indexed uint256)
+          handler: handleTransfer
+        - event: RemoveBlacklistEvent(address[])
+          handler: handleRemoveBlacklist
+        - event: AddBlacklistEvent(address[])
+          handler: handleAddBlacklist
+      file: TSSContract\TSSContract.wasm

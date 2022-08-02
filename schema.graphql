@@ -1,5 +1,22 @@
-type ExampleEntity @entity {
+type Token @entity {
   id: ID!
-  count: BigInt!
-  addresses: [Bytes]! # address[]
+  tokenID: BigInt!
+  createdAtTimestamp: BigInt!
+  creator: User!
+  owner: User!
+}
+
+type User @entity {
+  id: ID!
+  tokens: [Token!]! @derivedFrom(field: "owner")
+  created: [Token!]! @derivedFrom(field: "creator")
+  isBlacklist: Boolean! @default(value: false)
+  #Update role 24/07
+  role: [Role] @derivedFrom(field: "user")
+}
+
+#Add entity 24/07
+type Role @entity {
+  id: ID!
+  user: [User!]! @derivedFrom(field: "role")
 }
